@@ -2,7 +2,7 @@
   "name": "com.twosimpledevs.project.core",
   "displayName": "TSD Project Core",
   "description": "The core files for any project.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "unity": "2019.1",
   "keywords": [],
   "author": {

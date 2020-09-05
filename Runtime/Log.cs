@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace TwoSimpleDevs.Project.Core
 {
   public class Log
@@ -8,7 +10,7 @@ namespace TwoSimpleDevs.Project.Core
     {
       if (LogLevel.Debug <= Level)
       {
-        UnityEngine.Debug.Log(message);
+        Debug.Log(message);
       }
     }
 
@@ -16,7 +18,7 @@ namespace TwoSimpleDevs.Project.Core
     {
       if (LogLevel.Info <= Level)
       {
-        UnityEngine.Debug.Log(message);
+        Debug.Log(message);
       }
     }
 
@@ -24,7 +26,7 @@ namespace TwoSimpleDevs.Project.Core
     {
       if (LogLevel.Warning <= Level)
       {
-        UnityEngine.Debug.LogWarning(message);
+        Debug.LogWarning(message);
       }
     }
 
@@ -32,7 +34,7 @@ namespace TwoSimpleDevs.Project.Core
     {
       if (LogLevel.Error <= Level)
       {
-        UnityEngine.Debug.LogError(message);
+        Debug.LogError(message);
       }
     }
   }

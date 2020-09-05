@@ -18,22 +18,8 @@ namespace TwoSimpleDevs.Project.Core
     private string _nextScene;
     private ISceneContext _nextContext;
 
-    public void OnApplicationFocus(bool focus)
-    {
-      if (focus)
-      {
-        NotificationTrigger.Instant(AppEvent.AppFocusReturned);
-      }
-    }
-
     public void Update()
     {
-      // Trigger back button to Android home screen
-      if (Application.platform == RuntimePlatform.Android && Input.GetKeyDown(KeyCode.Escape))
-      {
-        NotificationTrigger.Instant(AppEvent.BackButtonPressed);
-      }
-
       if (!_transitioning && !string.IsNullOrEmpty(_nextScene))
       {
         GoTo(_nextScene, _nextContext);
@@ -116,6 +102,7 @@ namespace TwoSimpleDevs.Project.Core
       if (!string.IsNullOrEmpty(oldScene))
       {
         Log.Debug($"[AppService] UNLOADING: {oldScene}");
+
         // Unload the previous scene in the background.
         AsyncOperation asyncUnload = SceneManager.UnloadSceneAsync(oldScene);
 
@@ -126,6 +113,7 @@ namespace TwoSimpleDevs.Project.Core
       }
 
       Log.Debug($"[AppService] DONE - LOADING: {newScene}, UNLOADING: {oldScene}");
+
       _transitioning = false;
     }
 
