@@ -10,7 +10,7 @@ namespace TwoSimpleDevs.Project.Core
     {
       if (LogLevel.Debug <= Level)
       {
-        Debug.Log(message);
+        UnityEngine.Debug.Log(message);
       }
     }
 
@@ -18,7 +18,7 @@ namespace TwoSimpleDevs.Project.Core
     {
       if (LogLevel.Info <= Level)
       {
-        Debug.Log(message);
+        UnityEngine.Debug.Log(message);
       }
     }
 
@@ -26,7 +26,7 @@ namespace TwoSimpleDevs.Project.Core
     {
       if (LogLevel.Warning <= Level)
       {
-        Debug.LogWarning(message);
+        UnityEngine.Debug.LogWarning(message);
       }
     }
 
@@ -34,7 +34,7 @@ namespace TwoSimpleDevs.Project.Core
     {
       if (LogLevel.Error <= Level)
       {
-        Debug.LogError(message);
+        UnityEngine.Debug.LogError(message);
       }
     }
   }

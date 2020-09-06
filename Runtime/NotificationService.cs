@@ -14,23 +14,39 @@ namespace TwoSimpleDevs.Project.Core
 {
   public class NotificationService : ServiceSingletonBase<NotificationService> 
   {
+    private ListenersDictionary _listeners;
+    private NotificationsDictionary _notifications;
+
+    private ListenersDictionary Listeners 
+    {
+      get
+      {
+        if (_listeners == null)
+        {
+          _listeners = new ListenersDictionary();
+        }
+
+        return _listeners;
+      }
+    }
+
+    private NotificationsDictionary Notifications 
+    {
+      get
+      {
+        if (_notifications == null)
+        {
+          _notifications = new NotificationsDictionary();
+        }
+
+        return _notifications;
+      }
+    }
+
     public override string DataPath
     {
       get {  return Application.persistentDataPath + "/notifications.dat"; }
     }
-
-    private NotificationsList EmptyList
-    {
-      get { return new NotificationsList(); }
-    }
-
-    private NotificationsDictionary EmptyDict
-    {
-      get { return new NotificationsDictionary(); }
-    }
-
-    private NotificationsDictionary _notifications;
-    private ListenersDictionary _listeners;
 
     public void OnApplicationQuit()
     {
@@ -39,20 +55,25 @@ namespace TwoSimpleDevs.Project.Core
 
     public override void InitFromData(object data)
     {
-      _notifications = new NotificationsDictionary();
-      _listeners = new ListenersDictionary();
+      if (data == null)
+      {
+        return;
+      }
 
       var notificationList = (NotificationsList)data;
 
       foreach (var notification in notificationList)
       {
-        if (_notifications.ContainsKey(notification.AppEvent))
+        if (Notifications.ContainsKey(notification.AppEvent))
         {
-          _notifications[notification.AppEvent].Add(notification);
+          Notifications[notification.AppEvent].Add(notification);
         }
         else
         {
-          _notifications.Add(notification.AppEvent, new NotificationsList(){ notification });
+          Notifications.Add(notification.AppEvent, new NotificationsList()
+          {
+            notification 
+          });
         }
       }
     }
@@ -61,7 +82,7 @@ namespace TwoSimpleDevs.Project.Core
     {
       var result = new NotificationsList();
 
-      foreach (var kvp in _notifications)
+      foreach (var kvp in Notifications)
       {
         foreach (var notification in kvp.Value)
         {
@@ -83,55 +104,55 @@ namespace TwoSimpleDevs.Project.Core
     private void RefreshInternal()
     {
       // Clear out consumed notifications
-      foreach (var notificationGroup in _notifications)
+      foreach (var notificationGroup in Notifications)
       {
         notificationGroup.Value.RemoveAll(n => n.WasConsumed);
       }
 
       // Collect up the events with no notifications
-      var events = _notifications.Where(n => n.Value.Count == 0).Select(n => n.Key).ToList();
+      var events = Notifications.Where(n => n.Value.Count == 0).Select(n => n.Key).ToList();
 
       // Remove all empty events
-      events.ForEach(e => _notifications.Remove(e));
+      events.ForEach(e => Notifications.Remove(e));
     }
 
-    public static void ListenFor(string appEvent, NotificationAction listeneer)
+    public static void ListenFor(string appEvent, NotificationAction action)
     {
       if (Instance == null) return;
         
-      Instance.AddListener(appEvent, listeneer);
+      Instance.AddListener(appEvent, action);
     }
 
-    private void AddListener(string appEvent, NotificationAction listener)
+    private void AddListener(string appEvent, NotificationAction action)
     {
-      NotificationUnityEvent listeners = null;
+      NotificationUnityEvent notificationEvent = null;
 
-      if (_listeners.TryGetValue(appEvent, out listeners))
+      if (Listeners.TryGetValue(appEvent, out notificationEvent))
       {
-        listeners.AddListener(listener);
+        notificationEvent.AddListener(action);
       } 
       else
       {
-        listeners = new NotificationUnityEvent();
-        listeners.AddListener(listener);
-        _listeners.Add(appEvent, listeners);
+        notificationEvent = new NotificationUnityEvent();
+        notificationEvent.AddListener(action);
+        Listeners.Add(appEvent, notificationEvent);
       }
     }
 
-    public static void DoNotListenFor(string appEvent, NotificationAction listener)
+    public static void DoNotListenFor(string appEvent, NotificationAction action)
     {
       if (Instance == null) return;
 
-      Instance.RemoveListener(appEvent, listener);
+      Instance.RemoveListener(appEvent, action);
     }
 
-    private void RemoveListener(string appEvent, NotificationAction listener)
+    private void RemoveListener(string appEvent, NotificationAction action)
     {
-      NotificationUnityEvent listeners = null;
+      NotificationUnityEvent notificationEvent = null;
 
-      if (_listeners.TryGetValue(appEvent, out listeners))
+      if (Listeners.TryGetValue(appEvent, out notificationEvent))
       {
-        listeners.RemoveListener(listener);
+        notificationEvent.RemoveListener(action);
       }
     }
 
@@ -142,12 +163,12 @@ namespace TwoSimpleDevs.Project.Core
 
     private NotificationsList GetNotificationsFor(string appEvent)
     {
-      if (_notifications.ContainsKey(appEvent) && _notifications[appEvent].Count > 0)
+      if (Notifications.ContainsKey(appEvent) && Notifications[appEvent].Count > 0)
       {
-        return _notifications[appEvent];
+        return Notifications[appEvent];
       }
 
-      return EmptyList;
+      return new NotificationsList();
     }
 
     public static NotificationsDictionary CheckFor(List<string> appEvents)
@@ -157,13 +178,13 @@ namespace TwoSimpleDevs.Project.Core
 
     private NotificationsDictionary GetNotificationsFor(List<string> appEvents)
     {
-      var result = EmptyDict;
+      var result = new NotificationsDictionary();
 
       foreach (var appEvent in appEvents)
       {
-        if (_notifications.ContainsKey(appEvent) && _notifications[appEvent].Count > 0)
+        if (Notifications.ContainsKey(appEvent) && Notifications[appEvent].Count > 0)
         {
-          result.Add(appEvent, _notifications[appEvent]);
+          result.Add(appEvent, Notifications[appEvent]);
         }
       }
 
@@ -181,22 +202,25 @@ namespace TwoSimpleDevs.Project.Core
 
       if (notification.LifeSpan != NotificationLifeSpan.Instant)
       {
-        if (_notifications.ContainsKey(notification.AppEvent))
+        if (Notifications.ContainsKey(notification.AppEvent))
         {
-          _notifications[notification.AppEvent].Add(notification);
+          Notifications[notification.AppEvent].Add(notification);
         }
         else
         {
-          _notifications.Add(notification.AppEvent, new NotificationsList() { notification });
+          Notifications.Add(notification.AppEvent, new NotificationsList()
+          { 
+            notification 
+          });
         }
       }
 
-      NotificationUnityEvent listeners = null;
+      NotificationUnityEvent notificationEvent = null;
 
-      if (_listeners.TryGetValue(notification.AppEvent, out listeners))
+      if (Listeners.TryGetValue(notification.AppEvent, out notificationEvent))
       {
         // TODO: Invoke one at a time while not consumed.
-        listeners.Invoke(notification);
+        notificationEvent.Invoke(notification);
       }
     }
   }
