@@ -3,7 +3,7 @@ using UnityEngine.SceneManagement;
 
 namespace TwoSimpleDevs.Project.Core
 {
-  public class ScreenshotService : SingletonBehaviour<ScreenshotService> 
+  public class ScreenshotMaker : SingletonBehaviour<ScreenshotMaker> 
   {
     public void Update()
     {

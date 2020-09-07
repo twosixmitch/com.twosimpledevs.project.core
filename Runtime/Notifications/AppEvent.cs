@@ -14,6 +14,10 @@ namespace TwoSimpleDevs.Project.Core
     public const string StoreRestoreComplete = "StoreRestoreComplete";
     public const string PurchaseCurrencyPack = "PurchaseCurrencyPack";
 
+    // Wallet
+    public const string CurrencyIncrease = "CurrencyIncrease";
+    public const string CurrencyDecrease = "CurrencyDecrease";
+
     // User interaction
     public const string ConfirmedChoice = "ConfirmedChoice";
   }

@@ -9,7 +9,7 @@ namespace TwoSimpleDevs.Project.Core
   /*
     Handles scene transitions and passing information between scenes.
   */
-  public class AppService : SingletonBehaviour<AppService> 
+  public class SceneService : SingletonBehaviour<SceneService> 
   {
     public string CurrentScene { get; private set; }
 
