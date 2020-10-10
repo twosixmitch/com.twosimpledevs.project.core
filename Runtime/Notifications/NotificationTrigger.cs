@@ -1,21 +1,21 @@
 namespace TwoSimpleDevs.Project.Core
 {
-  public class NotificationTrigger
+  public static class NotificationTrigger
   {
-    public static void Instant(string appEvent)
+    public static void Instant(string name)
     {
       var notification = new Notification.Builder()
-                              .WithAppEvent(appEvent)
+                              .WithName(name)
                               .WithLifeSpan(NotificationLifeSpan.Instant)
                               .Build();
 
       NotificationService.Trigger(notification);
     }
 
-    public static void Instant(string appEvent, NotificationInfo info)
+    public static void Instant(string name, NotificationInfo info)
     {
       var notification = new Notification.Builder()
-                              .WithAppEvent(appEvent)
+                              .WithName(name)
                               .WithLifeSpan(NotificationLifeSpan.Instant)
                               .WithInfo(info)
                               .Build();

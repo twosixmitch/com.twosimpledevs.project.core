@@ -1,6 +1,6 @@
 namespace TwoSimpleDevs.Project.Core
 {
-  public partial class NotificationConstants 
+  public partial class NotificationInfoKeys
   {
     public const string Reason = "reason";
     public const string CurrencyAmount = "CurrencyAmount";

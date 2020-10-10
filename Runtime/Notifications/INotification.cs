@@ -4,7 +4,7 @@
   {
     bool Consumable { get; }
     
-    string AppEvent { get; }
+    string Name { get; }
     
     NotificationLifeSpan LifeSpan { get; }
     

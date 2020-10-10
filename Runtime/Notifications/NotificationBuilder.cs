@@ -7,7 +7,7 @@ namespace TwoSimpleDevs.Project.Core
     public class Builder
     {
       private bool _consumable = true; 
-      private string _appEvent;
+      private string _name;
       private NotificationLifeSpan _lifeSpan;
       private DateTime _expirationDate;
       private NotificationInfo _info;
@@ -18,9 +18,9 @@ namespace TwoSimpleDevs.Project.Core
         return this;
       }
 
-      public Builder WithAppEvent(string appEvent)
+      public Builder WithName(string name)
       {
-        _appEvent = appEvent;
+        _name = name;
         return this;
       }
 
@@ -46,7 +46,7 @@ namespace TwoSimpleDevs.Project.Core
       {
         return new Notification()
         {
-          _appEvent       = _appEvent,
+          _name           = _name,
           _lifeSpan       = _lifeSpan,
           _consumable     = _consumable,
           _expirationDate = _expirationDate,

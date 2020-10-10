@@ -64,13 +64,13 @@ namespace TwoSimpleDevs.Project.Core
 
       foreach (var notification in notificationList)
       {
-        if (Notifications.ContainsKey(notification.AppEvent))
+        if (Notifications.ContainsKey(notification.Name))
         {
-          Notifications[notification.AppEvent].Add(notification);
+          Notifications[notification.Name].Add(notification);
         }
         else
         {
-          Notifications.Add(notification.AppEvent, new NotificationsList()
+          Notifications.Add(notification.Name, new NotificationsList()
           {
             notification 
           });
@@ -116,18 +116,18 @@ namespace TwoSimpleDevs.Project.Core
       events.ForEach(e => Notifications.Remove(e));
     }
 
-    public static void ListenFor(string appEvent, NotificationAction action)
+    public static void ListenFor(string name, NotificationAction action)
     {
       if (Instance == null) return;
         
-      Instance.AddListener(appEvent, action);
+      Instance.AddListener(name, action);
     }
 
-    private void AddListener(string appEvent, NotificationAction action)
+    private void AddListener(string name, NotificationAction action)
     {
       NotificationUnityEvent notificationEvent = null;
 
-      if (Listeners.TryGetValue(appEvent, out notificationEvent))
+      if (Listeners.TryGetValue(name, out notificationEvent))
       {
         notificationEvent.AddListener(action);
       } 
@@ -135,56 +135,56 @@ namespace TwoSimpleDevs.Project.Core
       {
         notificationEvent = new NotificationUnityEvent();
         notificationEvent.AddListener(action);
-        Listeners.Add(appEvent, notificationEvent);
+        Listeners.Add(name, notificationEvent);
       }
     }
 
-    public static void DoNotListenFor(string appEvent, NotificationAction action)
+    public static void DoNotListenFor(string name, NotificationAction action)
     {
       if (Instance == null) return;
 
-      Instance.RemoveListener(appEvent, action);
+      Instance.RemoveListener(name, action);
     }
 
-    private void RemoveListener(string appEvent, NotificationAction action)
+    private void RemoveListener(string name, NotificationAction action)
     {
       NotificationUnityEvent notificationEvent = null;
 
-      if (Listeners.TryGetValue(appEvent, out notificationEvent))
+      if (Listeners.TryGetValue(name, out notificationEvent))
       {
         notificationEvent.RemoveListener(action);
       }
     }
 
-    public static NotificationsList CheckFor(string appEvent)
+    public static NotificationsList CheckFor(string name)
     {
-      return Instance.GetNotificationsFor(appEvent);
+      return Instance.GetNotificationsFor(name);
     }
 
-    private NotificationsList GetNotificationsFor(string appEvent)
+    private NotificationsList GetNotificationsFor(string name)
     {
-      if (Notifications.ContainsKey(appEvent) && Notifications[appEvent].Count > 0)
+      if (Notifications.ContainsKey(name) && Notifications[name].Count > 0)
       {
-        return Notifications[appEvent];
+        return Notifications[name];
       }
 
       return new NotificationsList();
     }
 
-    public static NotificationsDictionary CheckFor(List<string> appEvents)
+    public static NotificationsDictionary CheckFor(List<string> names)
     {
-      return Instance.GetNotificationsFor(appEvents);
+      return Instance.GetNotificationsFor(names);
     }
 
-    private NotificationsDictionary GetNotificationsFor(List<string> appEvents)
+    private NotificationsDictionary GetNotificationsFor(List<string> names)
     {
       var result = new NotificationsDictionary();
 
-      foreach (var appEvent in appEvents)
+      foreach (var name in names)
       {
-        if (Notifications.ContainsKey(appEvent) && Notifications[appEvent].Count > 0)
+        if (Notifications.ContainsKey(name) && Notifications[name].Count > 0)
         {
-          result.Add(appEvent, Notifications[appEvent]);
+          result.Add(name, Notifications[name]);
         }
       }
 
@@ -198,17 +198,17 @@ namespace TwoSimpleDevs.Project.Core
 
     private void TriggerNotification(INotification notification)
     {
-      Log.Debug($"[NotificationService] Triggered notification for {notification.AppEvent} with lifespan of {notification.LifeSpan}");
+      Log.Debug($"[NotificationService] Triggered notification for {notification.Name} with lifespan of {notification.LifeSpan}");
 
       if (notification.LifeSpan != NotificationLifeSpan.Instant)
       {
-        if (Notifications.ContainsKey(notification.AppEvent))
+        if (Notifications.ContainsKey(notification.Name))
         {
-          Notifications[notification.AppEvent].Add(notification);
+          Notifications[notification.Name].Add(notification);
         }
         else
         {
-          Notifications.Add(notification.AppEvent, new NotificationsList()
+          Notifications.Add(notification.Name, new NotificationsList()
           { 
             notification 
           });
@@ -217,7 +217,7 @@ namespace TwoSimpleDevs.Project.Core
 
       NotificationUnityEvent notificationEvent = null;
 
-      if (Listeners.TryGetValue(notification.AppEvent, out notificationEvent))
+      if (Listeners.TryGetValue(notification.Name, out notificationEvent))
       {
         // TODO: Invoke one at a time while not consumed.
         notificationEvent.Invoke(notification);

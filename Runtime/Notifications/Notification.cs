@@ -10,7 +10,7 @@ namespace TwoSimpleDevs.Project.Core
     private bool _consumable;
 
     [SerializeField]
-    private string _appEvent;
+    private string _name;
 
     [SerializeField]
     private NotificationLifeSpan _lifeSpan;
@@ -25,7 +25,7 @@ namespace TwoSimpleDevs.Project.Core
     private NotificationInfo _info;
 
     public bool Consumable { get { return _consumable; } }
-    public string AppEvent { get { return _appEvent; } }
+    public string Name { get { return _name; } }
     public NotificationLifeSpan LifeSpan { get { return _lifeSpan; } }
     public NotificationState State { get { return _state; } }
     public NotificationInfo Info { get { return _info; } }
