@@ -11,11 +11,10 @@ namespace TwoSimpleDevs.Project.Core
   */
   public class SceneService : SingletonBehaviour<SceneService> 
   {
-    public string CurrentScene { get; private set; }
-
     private SceneTransitionController _transitionController;
     private bool _transitioning;
     private string _nextScene;
+    private string _currentScene; // needs to be set.
     private ISceneContext _nextContext;
 
     public void Update()
@@ -33,7 +32,12 @@ namespace TwoSimpleDevs.Project.Core
 
     private void GoToInternal(string scene, ISceneContext context)
     {
-      if (CurrentScene == scene)
+      if (_currentScene == null)
+      {
+        _currentScene = SceneManager.GetActiveScene().name;
+      }
+
+      if (_currentScene == scene)
       {
         return;
       }
@@ -59,7 +63,7 @@ namespace TwoSimpleDevs.Project.Core
 
     private IEnumerator LoadYourAsyncScene(string newScene, ISceneContext context)
     {
-      string oldScene = CurrentScene;
+      string oldScene = _currentScene;
 
       Log.Debug($"[AppService] LOADING: {newScene}, UNLOADING: {oldScene}");
 
@@ -83,7 +87,7 @@ namespace TwoSimpleDevs.Project.Core
       }
 
       // Scene now ready!
-      CurrentScene = newScene;
+      _currentScene = newScene;
       
       // Activate the new scene.
       var newActiveScene = SceneManager.GetSceneByName(newScene);
