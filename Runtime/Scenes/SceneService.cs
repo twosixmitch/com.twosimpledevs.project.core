@@ -11,12 +11,12 @@ namespace TwoSimpleDevs.Project.Core
   */
   public class SceneService : SingletonBehaviour<SceneService> 
   {
-    private SceneTransitionController _transitionController;
     private bool _transitioning;
     private string _nextScene;
-    private string _currentScene; // needs to be set.
+    private string _currentScene;
     private ISceneContext _nextContext;
-
+    private SceneTransitionController _transitionController;
+    
     public void Update()
     {
       if (!_transitioning && !string.IsNullOrEmpty(_nextScene))
