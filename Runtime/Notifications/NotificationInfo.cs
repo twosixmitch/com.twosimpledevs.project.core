@@ -12,17 +12,19 @@ namespace TwoSimpleDevs.Project.Core
 
     public static NotificationInfo New
     {
-      get { return new NotificationInfo(); }
-    }
-    
-    public NotificationInfo()
-    {
-      _data = new Dictionary<string, object>();
+      get
+      { 
+        return new NotificationInfo()
+        {
+          _data = new Dictionary<string, object>()
+        };
+      }
     }
 
-    public void Set(string key, object value)
+    public NotificationInfo Set(string key, object value)
     {
       _data.Add(key, value);
+      return this;
     }
 
     public object Get(string key)
