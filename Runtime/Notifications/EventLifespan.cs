@@ -1,10 +1,10 @@
 ﻿namespace TwoSimpleDevs.Project.Core
 {
-  public enum NotificationLifeSpan
+  public enum EventLifespan
   {
     Instant,
     Session,
-    TillConsumed,
+    TillHandled,
     Custom
   }
 }

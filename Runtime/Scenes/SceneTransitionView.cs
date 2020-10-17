@@ -34,7 +34,7 @@ namespace TwoSimpleDevs.Project.Core
 
       Anim.ResetTrigger("TransitionIn");
       
-      NotificationTrigger.Instant(NotificationNames.SceneTransitionedIn);
+      EventService.TriggerEvent(EventNames.SceneTransitionedIn);
     }
 
     public void OnTransitionOut()
@@ -44,7 +44,7 @@ namespace TwoSimpleDevs.Project.Core
 
       Anim.ResetTrigger("TransitionOut");
 
-      NotificationTrigger.Instant(NotificationNames.SceneTransitionedOut);
+      EventService.TriggerEvent(EventNames.SceneTransitionedOut);
 
       _callback?.Invoke();
     }

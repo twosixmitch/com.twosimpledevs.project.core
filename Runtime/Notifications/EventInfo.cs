@@ -5,23 +5,23 @@ using UnityEngine;
 namespace TwoSimpleDevs.Project.Core
 {
   [Serializable]
-  public class NotificationInfo
+  public class EventInfo
   {
     [SerializeField]
     private Dictionary<string, object> _data;
 
-    public static NotificationInfo New
+    public static EventInfo New
     {
       get
       { 
-        return new NotificationInfo()
+        return new EventInfo()
         {
           _data = new Dictionary<string, object>()
         };
       }
     }
 
-    public NotificationInfo Set(string key, object value)
+    public EventInfo Set(string key, object value)
     {
       _data.Add(key, value);
       return this;

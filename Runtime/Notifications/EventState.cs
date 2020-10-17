@@ -1,9 +1,9 @@
 ﻿namespace TwoSimpleDevs.Project.Core
 {
-  public enum NotificationState 
+  public enum EventState 
   {
     New,
     Seen,
-    Consumed,
+    Handled,
   }
 }

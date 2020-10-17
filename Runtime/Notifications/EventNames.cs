@@ -1,6 +1,6 @@
 namespace TwoSimpleDevs.Project.Core
 {
-  public static partial class NotificationNames
+  public static partial class EventNames
   {
     // Basic app events
     public const string AppFocusReturned = "AppFocusReturned";

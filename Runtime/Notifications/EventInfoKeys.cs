@@ -1,6 +1,6 @@
 namespace TwoSimpleDevs.Project.Core
 {
-  public partial class NotificationInfoKeys
+  public partial class EventInfoKeys
   {
     public const string Reason = "reason";
     public const string ConfirmedChoice = "ConfirmedChoice";
