@@ -11,22 +11,25 @@ namespace TwoSimpleDevs.Project.Core
 
     public void PerformTransitionIn()
     {
-      Log.Debug("[SceneTransitionController] PerformTransitionIn");
-
       if (TransitionView != null)
       {
+        Log.Debug("[SceneTransitionController] Performing Transition In");
         TransitionView.TransitionIn();
+      }
+      else
+      {
+        Log.Warning("[SceneTransitionController] Cannot perform Transition In anim - TransitionView is NULL");
       }
     }
 
     public IEnumerator PerformTransitionOut()
     {
-      Log.Debug("[SceneTransitionController] PerformTransitionOut");
-      
       _completedTransition = false;
 
       if (TransitionView != null)
       {
+        Log.Debug("[SceneTransitionController] Performing Transition Out");
+
         TransitionView.TransitionOut(() =>
         { 
           _completedTransition = true; 
@@ -36,6 +39,7 @@ namespace TwoSimpleDevs.Project.Core
       }
       else
       {
+        Log.Warning("[SceneTransitionController] Cannot perform Transition Out anim - TransitionView is NULL");
         yield return null;
       }
     }

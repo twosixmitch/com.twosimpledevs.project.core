@@ -7,7 +7,7 @@ namespace TwoSimpleDevs.Project.Core
   {
     public override string DataPath
     {
-      get {  return Application.persistentDataPath + "/settings.dat"; }
+      get {  return Application.persistentDataPath + "/settings_service.dat"; }
     }
 
     public float SFXVolume

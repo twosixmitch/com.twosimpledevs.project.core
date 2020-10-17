@@ -2,7 +2,7 @@
   "name": "com.twosimpledevs.project.core",
   "displayName": "TSD Project Core",
   "description": "The core files for any project.",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "unity": "2019.1",
   "keywords": [],
   "author": {
@@ -13,7 +13,7 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/twosixmitch/com.twosimpledevs.project.core.git",
-    "revision": "2.0.0"
+    "revision": "2.0.1"
   },
   "type": "library",
   "hideInEditor": false

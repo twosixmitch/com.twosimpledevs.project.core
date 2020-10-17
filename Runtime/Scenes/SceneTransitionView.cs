@@ -29,7 +29,6 @@ namespace TwoSimpleDevs.Project.Core
 
     public void OnTransitionIn()
     {
-      // Completed the transition in
       Log.Debug("[SceneTransitionView] OnTranstionIn");
 
       Anim.ResetTrigger("TransitionIn");
@@ -39,7 +38,6 @@ namespace TwoSimpleDevs.Project.Core
 
     public void OnTransitionOut()
     {
-      // Completed the transition out
       Log.Debug("[SceneTransitionView] OnTranstionOut");
 
       Anim.ResetTrigger("TransitionOut");

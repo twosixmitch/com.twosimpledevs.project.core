@@ -60,7 +60,7 @@ namespace TwoSimpleDevs.Project.Core
       }
       catch (Exception e)
       {
-        Log.Error($"[NotificationService] Failed to save due to: {e.Message}");
+        Log.Error($"[Service] Failed to save due to: {e.Message}");
       }
     }
   }
