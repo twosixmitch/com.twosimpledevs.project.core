@@ -1,6 +1,4 @@
 using UnityEngine;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.IO;
 using System;
 
 namespace TwoSimpleDevs.Project.Core
@@ -9,7 +7,7 @@ namespace TwoSimpleDevs.Project.Core
   {
     public override string DataPath
     {
-      get {  return Application.persistentDataPath + "/user.dat"; }
+      get {  return Application.persistentDataPath + "/user_service.dat"; }
     }
 
     public static string UserId

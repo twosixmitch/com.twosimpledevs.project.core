@@ -1,5 +1,3 @@
-using UnityEngine;
-
 namespace TwoSimpleDevs.Project.Core
 {
   public class Log

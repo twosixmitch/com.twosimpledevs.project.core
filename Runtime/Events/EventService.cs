@@ -1,8 +1,5 @@
-using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 
 using EventAction         = UnityEngine.Events.UnityAction<TwoSimpleDevs.Project.Core.IEvent>;
@@ -196,6 +193,8 @@ namespace TwoSimpleDevs.Project.Core
 
     public static void TriggerEvent(string name, EventLifespan lifespan = EventLifespan.Instant)
     {
+      if (Instance == null) return;
+      
       var newEvent = new Event.Builder().WithName(name).WithLifespan(lifespan).Build();
 
       Instance.TriggerEventInternal(newEvent);
@@ -203,6 +202,8 @@ namespace TwoSimpleDevs.Project.Core
 
     public static void TriggerEvent(string name, EventInfo info, EventLifespan lifespan = EventLifespan.Instant)
     {
+      if (Instance == null) return;
+
       var newEvent = new Event.Builder().WithName(name).WithLifespan(lifespan).WithInfo(info).Build();
 
       Instance.TriggerEventInternal(newEvent);
