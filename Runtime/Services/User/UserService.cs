@@ -17,22 +17,18 @@ namespace TwoSimpleDevs.Project.Core
 
     private UserState _state;
 
-    public override void InitFromData(object data)
+    public override void Initialize(object data)
     {
       if (data == null)
       {
+        _state = new UserState() { Id = Guid.NewGuid().ToString().Replace("-", string.Empty) };
         return;
       }
 
       _state = (UserState)data;
-
-      if (string.IsNullOrEmpty(_state.Id))
-      {
-        _state.Id = Guid.NewGuid().ToString().Replace("-", string.Empty);
-      }
     }
 
-    public override object GetDataToSave()
+    public override object Serialize()
     {
       return _state;
     }

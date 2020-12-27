@@ -21,7 +21,7 @@ namespace TwoSimpleDevs.Project.Core
 
     private SettingsState _state;
 
-    public override void InitFromData(object data)
+    public override void Initialize(object data)
     {
       if (data == null)
       {
@@ -32,7 +32,7 @@ namespace TwoSimpleDevs.Project.Core
       _state = (SettingsState)data;
     }
 
-    public override object GetDataToSave()
+    public override object Serialize()
     {
       return _state;
     }

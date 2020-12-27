@@ -9,8 +9,8 @@ namespace TwoSimpleDevs.Project.Core
   {
     public abstract string DataPath { get; }
 
-    public abstract void InitFromData(object data);
-    public abstract object GetDataToSave();
+    public abstract void Initialize(object data);
+    public abstract object Serialize();
 
     public virtual void Load()
     {
@@ -27,7 +27,7 @@ namespace TwoSimpleDevs.Project.Core
           var formatter = new BinaryFormatter();
           var file = File.Open(path, FileMode.Open);
 
-          InitFromData(formatter.Deserialize(file));
+          Initialize(formatter.Deserialize(file));
           
           file.Close();
         }
@@ -39,6 +39,8 @@ namespace TwoSimpleDevs.Project.Core
       else
       {
         Log.Debug($"[Service] Data does not exist at {path}");
+
+        Initialize(null);
       }
     }
 
@@ -53,7 +55,7 @@ namespace TwoSimpleDevs.Project.Core
 
         Log.Debug($"[Service] Saving to {path}");
 
-        formatter.Serialize(file, GetDataToSave());
+        formatter.Serialize(file, Serialize());
 
         file.Close();
       }

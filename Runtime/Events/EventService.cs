@@ -50,7 +50,7 @@ namespace TwoSimpleDevs.Project.Core
       Save();
     }
 
-    public override void InitFromData(object data)
+    public override void Initialize(object data)
     {
       if (data == null)
       {
@@ -72,7 +72,7 @@ namespace TwoSimpleDevs.Project.Core
       }
     }
 
-    public override object GetDataToSave()
+    public override object Serialize()
     {
       var result = new EventsList();
 
