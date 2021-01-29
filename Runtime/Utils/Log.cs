@@ -1,8 +1,12 @@
-namespace TwoSimpleDevs.Project.Core
+namespace TSDevs
 {
   public class Log
   {
-    public static LogLevel Level { get; set; }
+    #if UNITY_EDITOR
+    public static LogLevel Level { get; set; } = LogLevel.Debug;
+    #else
+    public static LogLevel Level { get; set; } = LogLevel.Warning;
+    #endif
 
     public static void Debug(string message)
     {

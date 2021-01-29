@@ -1,10 +1,10 @@
 using System;
 using UnityEngine.Events;
 
-namespace TwoSimpleDevs.Project.Core
+namespace TSDevs
 {
   [Serializable]
-  public class TSDUnityEvent : UnityEvent<IEvent>
+  public class TSDevsUnityEvent : UnityEvent<IEvent>
   {
   }
 }

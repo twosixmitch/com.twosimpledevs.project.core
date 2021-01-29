@@ -1,4 +1,4 @@
-﻿namespace TwoSimpleDevs.Project.Core
+﻿namespace TSDevs
 {
   public enum EventState 
   {

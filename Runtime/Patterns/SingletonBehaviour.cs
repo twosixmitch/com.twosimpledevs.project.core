@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
  
-namespace TwoSimpleDevs.Project.Core
+namespace TSDevs
 {
   public class SingletonBehaviour<T> : MonoBehaviour where T : MonoBehaviour
   {
@@ -32,7 +32,14 @@ namespace TwoSimpleDevs.Project.Core
 
     public virtual void Awake() 
     {
-      DontDestroyOnLoad(this.gameObject);
+      if (this.gameObject.transform.parent == null)
+      {
+        DontDestroyOnLoad(this.gameObject);
+      }
+      else
+      {
+        Log.Info($"[Singleton] {typeof(T).ToString()}: DontDestroyOnLoad only works for root GameObjects or components on root GameObjects.");
+      }
     }
 
     public void OnDestroy()

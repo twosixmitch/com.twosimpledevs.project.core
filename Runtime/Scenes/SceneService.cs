@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace TwoSimpleDevs.Project.Core
+namespace TSDevs
 {
   /*
     Handles scene transitions and passing information between scenes.

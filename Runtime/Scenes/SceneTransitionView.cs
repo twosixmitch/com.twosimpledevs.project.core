@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace TwoSimpleDevs.Project.Core
+namespace TSDevs
 {
   public class SceneTransitionView : MonoBehaviour
   {

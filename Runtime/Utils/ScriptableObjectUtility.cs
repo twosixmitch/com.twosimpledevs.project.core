@@ -3,7 +3,7 @@ using UnityEngine;
 using System.IO;
 using UnityEditor;
  
-namespace TwoSimpleDevs.Project.Core
+namespace TSDevs
 {
   public static class ScriptableObjectUtility
   {

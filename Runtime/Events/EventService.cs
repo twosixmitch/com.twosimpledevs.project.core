@@ -2,12 +2,12 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-using EventAction         = UnityEngine.Events.UnityAction<TwoSimpleDevs.Project.Core.IEvent>;
-using EventsList          = System.Collections.Generic.List<TwoSimpleDevs.Project.Core.IEvent>;
-using EventsDictionary    = System.Collections.Generic.Dictionary<string, System.Collections.Generic.List<TwoSimpleDevs.Project.Core.IEvent>>;
-using ListenersDictionary = System.Collections.Generic.Dictionary<string, TwoSimpleDevs.Project.Core.TSDUnityEvent>;
+using EventAction         = UnityEngine.Events.UnityAction<TSDevs.IEvent>;
+using EventsList          = System.Collections.Generic.List<TSDevs.IEvent>;
+using EventsDictionary    = System.Collections.Generic.Dictionary<string, System.Collections.Generic.List<TSDevs.IEvent>>;
+using ListenersDictionary = System.Collections.Generic.Dictionary<string, TSDevs.TSDevsUnityEvent>;
 
-namespace TwoSimpleDevs.Project.Core
+namespace TSDevs
 {
   public class EventService : ServiceSingletonBase<EventService> 
   {
@@ -121,7 +121,7 @@ namespace TwoSimpleDevs.Project.Core
 
     private void AddListenerInternal(string name, EventAction action)
     {
-      TSDUnityEvent unityEvent = null;
+      TSDevsUnityEvent unityEvent = null;
 
       if (Listeners.TryGetValue(name, out unityEvent))
       {
@@ -129,7 +129,7 @@ namespace TwoSimpleDevs.Project.Core
       } 
       else
       {
-        unityEvent = new TSDUnityEvent();
+        unityEvent = new TSDevsUnityEvent();
         unityEvent.AddListener(action);
         Listeners.Add(name, unityEvent);
       }
@@ -144,7 +144,7 @@ namespace TwoSimpleDevs.Project.Core
 
     private void RemoveListenerInternal(string name, EventAction action)
     {
-      TSDUnityEvent unityEvent = null;
+      TSDevsUnityEvent unityEvent = null;
 
       if (Listeners.TryGetValue(name, out unityEvent))
       {
@@ -232,7 +232,7 @@ namespace TwoSimpleDevs.Project.Core
         }
       }
 
-      TSDUnityEvent unityEvent = null;
+      TSDevsUnityEvent unityEvent = null;
 
       if (Listeners.TryGetValue(triggeredEvent.Name, out unityEvent))
       {

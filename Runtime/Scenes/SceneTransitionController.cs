@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-namespace TwoSimpleDevs.Project.Core
+namespace TSDevs
 {
   public class SceneTransitionController : MonoBehaviour
   {

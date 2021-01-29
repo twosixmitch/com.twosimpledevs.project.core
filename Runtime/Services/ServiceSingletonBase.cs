@@ -3,7 +3,7 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 
-namespace TwoSimpleDevs.Project.Core
+namespace TSDevs
 {
   public abstract class ServiceSingletonBase<T> : SingletonBehaviour<T> where T : MonoBehaviour
   {

@@ -1,6 +1,6 @@
 using System;
 
-namespace TwoSimpleDevs.Project.Core
+namespace TSDevs
 {
   public class DateProvider : SingletonBehaviour<DateProvider>
   {

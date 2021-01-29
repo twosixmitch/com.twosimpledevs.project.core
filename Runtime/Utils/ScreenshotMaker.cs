@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace TwoSimpleDevs.Project.Core
+namespace TSDevs
 {
   public class ScreenshotMaker : SingletonBehaviour<ScreenshotMaker> 
   {

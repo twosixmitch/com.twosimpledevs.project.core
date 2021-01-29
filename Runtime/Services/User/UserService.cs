@@ -1,7 +1,7 @@
 using UnityEngine;
 using System;
 
-namespace TwoSimpleDevs.Project.Core
+namespace TSDevs
 {
   public class UserService : ServiceSingletonBase<UserService>
   {
