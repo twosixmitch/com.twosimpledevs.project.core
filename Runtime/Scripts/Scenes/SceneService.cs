@@ -14,32 +14,32 @@ namespace TSDevs
     public bool LoggingEnabled = true;
 
     private bool _transitioning;
-    private string _nextScene;
-    private string _currentScene;
+    private string _nextSceneName;
+    private string _currentSceneName;
     private ISceneContext _nextContext;
     private SceneTransitionController _transitionController;
 
     public void Update()
     {
-      if (!_transitioning && !string.IsNullOrEmpty(_nextScene))
+      if (!_transitioning && !string.IsNullOrEmpty(_nextSceneName))
       {
-        GoTo(_nextScene, _nextContext);
+        GoTo(_nextSceneName, _nextContext);
       }
     }
 
-    public static void GoTo(string scene, ISceneContext context = null)
+    public static void GoTo(string sceneName, ISceneContext context = null)
     {
-      Instance.GoToInternal(scene, context);
+      Instance.GoToInternal(sceneName, context);
     }
 
-    private void GoToInternal(string scene, ISceneContext context)
+    private void GoToInternal(string sceneName, ISceneContext context)
     {
-      if (_currentScene == null)
+      if (_currentSceneName == null)
       {
-        _currentScene = SceneManager.GetActiveScene().name;
+        _currentSceneName = SceneManager.GetActiveScene().name;
       }
 
-      if (_currentScene == scene)
+      if (_currentSceneName == sceneName)
       {
         return;
       }
@@ -48,35 +48,42 @@ namespace TSDevs
       {
         _transitioning = true;
 
-        Instance.StartCoroutine(Instance.PerformTransition(scene, context));
+        Instance.StartCoroutine(Instance.PerformTransition(sceneName, context));
 
-        if (_nextScene == scene)
+        if (_nextSceneName == sceneName)
         {
-          _nextScene = null;
+          _nextSceneName = null;
           _nextContext = null;
         }
       }
       else
       {
-        _nextScene = scene;
+        _nextSceneName = sceneName;
         _nextContext = context;
       }
     }
 
-    private IEnumerator PerformTransition(string newScene, ISceneContext context)
+    private IEnumerator PerformTransition(string newSceneName, ISceneContext context)
     {
-      string oldScene = _currentScene;
+      string oldSceneName = _currentSceneName;
 
       if (LoggingEnabled)
       {
-        Log.Debug($"[SceneService] Started loading: {newScene}");
+        Log.Debug($"[SceneService] Started loading: {newSceneName}");
       }
+      
+      var oldScene = SceneManager.GetSceneByName(oldSceneName);
 
+      var oldSceneBehaviours = FindSceneBehaviours(oldScene);
+      oldSceneBehaviours.ForEach(h => h.OnSceneTransitionOutStarted());
+     
       // Play a transition out animation.
       yield return PerformTransitionOut();
 
-      // Begin loading the new scene immediately in the background.
-      AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(newScene, LoadSceneMode.Additive);
+      oldSceneBehaviours.ForEach(h => h.OnSceneLeave());
+
+      // Begin loading the new scene immediately in the background. (TODO: Do this during the transition out)
+      AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(newSceneName, LoadSceneMode.Additive);
       
       // Allow the new scene to popup in now when its ready.
       asyncLoad.allowSceneActivation = true;
@@ -89,32 +96,32 @@ namespace TSDevs
 
       if (LoggingEnabled)
       {
-        Log.Debug($"[SceneService] Finished loading: {newScene}");
+        Log.Debug($"[SceneService] Finished loading: {newSceneName}");
       }
 
       // Scene now ready!
-      _currentScene = newScene;
+      _currentSceneName = newSceneName;
       
       // Activate the new scene.
-      var newActiveScene = SceneManager.GetSceneByName(newScene);
+      var newActiveScene = SceneManager.GetSceneByName(newSceneName);
       SceneManager.SetActiveScene(newActiveScene);
 
       // Unload the old scene.
-      yield return UnloadScene(oldScene);
+      yield return UnloadScene(oldSceneName);
 
       // Notify the new scene's context handlers.
-      var sceneBehaviours = FindSceneBehaviours(newActiveScene);
-      sceneBehaviours.ForEach(h => h.OnSceneStart(context));
+      var newSceneBehaviours = FindSceneBehaviours(newActiveScene);
+      newSceneBehaviours.ForEach(h => h.OnSceneEnter(context));
 
       // Play a transition in animation.
       yield return PerformTransitionIn();
       
       // Notify the new scene's context handlers.
-      sceneBehaviours.ForEach(h => h.OnSceneTransitionInFinished());
+      newSceneBehaviours.ForEach(h => h.OnSceneTransitionInFinished());
 
       if (LoggingEnabled)
       {
-        Log.Debug($"[SceneService] Finished transition from: {oldScene} to: {newScene}");
+        Log.Debug($"[SceneService] Finished transition from: {oldSceneName} to: {newSceneName}");
       }
 
       _transitioning = false;
